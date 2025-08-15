@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CardSetRowView: View {
     let lorcanaSet: LorcanaSet
+    let onViewAllTapped: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -33,11 +34,17 @@ struct CardSetRowView: View {
             // Horizontally scrollable card items
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
-                    ForEach(lorcanaSet.cards, id: \.uniqueID) { card in
+                    ForEach(Array(lorcanaSet.cards.prefix(10)), id: \.uniqueID) { card in
                         LorcanaCardView(card: card)
                             .onTapGesture {
                                 print("Tapped on \(card.name) from \(lorcanaSet.setName)")
                             }
+                    }
+                    
+                    if lorcanaSet.cards.count > 10 {
+                        ViewAllTile {
+                            onViewAllTapped()
+                        }
                     }
                 }
                 .padding(.horizontal)

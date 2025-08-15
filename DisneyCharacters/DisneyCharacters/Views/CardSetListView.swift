@@ -3,6 +3,7 @@ import SwiftUI
 struct CardSetListView: View {
     @StateObject private var viewModel = CardSetListViewModel()
     @EnvironmentObject var appDataManager: AppDataManager
+    @State private var selectedSet: LorcanaSet?
     
     var body: some View {
         NavigationView {
@@ -57,7 +58,9 @@ struct CardSetListView: View {
                     ScrollView {
                         LazyVStack(spacing: 24) {
                             ForEach(viewModel.lorcanaSets) { lorcanaSet in
-                                CardSetRowView(lorcanaSet: lorcanaSet)
+                                CardSetRowView(lorcanaSet: lorcanaSet) {
+                                    selectedSet = lorcanaSet
+                                }
                             }
                         }
                         .padding(.top)
@@ -69,6 +72,15 @@ struct CardSetListView: View {
             }
             .navigationTitle("Lorcana Cards")
             .navigationBarTitleDisplayMode(.large)
+            .sheet(item: $selectedSet) { lorcanaSet in
+                CardSetDetailView(
+                    setName: lorcanaSet.setName,
+                    setNumber: lorcanaSet.setNum,
+                    cards: lorcanaSet.cards
+                ) {
+                    selectedSet = nil
+                }
+            }
         }
     }
 }
