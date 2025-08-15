@@ -39,14 +39,14 @@ struct CardSetRowView: View {
             // Horizontally scrollable card items
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
-                    ForEach(Array(lorcanaSet.cards.prefix(10)), id: \.uniqueID) { card in
+                    ForEach(Array(getDisplayCards().prefix(12)), id: \.uniqueID) { card in
                         LorcanaCardView(card: card)
                             .onTapGesture {
                                 print("Tapped on \(card.name) from \(lorcanaSet.setName)")
                             }
                     }
                     
-                    if lorcanaSet.cards.count > 10 {
+                    if lorcanaSet.cards.count > 12 {
                         ViewAllTile {
                             openCardSetDetailView()
                         }
@@ -56,5 +56,32 @@ struct CardSetRowView: View {
             }
         }
         .padding(.vertical, 8)
+    }
+    
+    private func getDisplayCards() -> [LorcanaCard] {
+        // Filter for legendary cards first
+        let legendaryCards = lorcanaSet.cards.filter { card in
+            card.rarity?.lowercased() == "legendary"
+        }
+        
+        // Group by color and take 2 from each
+        let cardsByColor = Dictionary(grouping: legendaryCards) { card in
+            card.color ?? "Unknown"
+        }
+        
+        var displayCards: [LorcanaCard] = []
+        for (_, cards) in cardsByColor {
+            displayCards.append(contentsOf: Array(cards.prefix(2)))
+        }
+        
+        // If we don't have enough legendary cards, fill with remaining cards
+        if displayCards.count < 12 {
+            let remainingCards = lorcanaSet.cards.filter { card in
+                !displayCards.contains(where: { $0.uniqueID == card.uniqueID })
+            }
+            displayCards.append(contentsOf: Array(remainingCards.prefix(12 - displayCards.count)))
+        }
+        
+        return displayCards
     }
 }
