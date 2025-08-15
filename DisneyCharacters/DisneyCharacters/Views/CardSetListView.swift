@@ -4,12 +4,25 @@ struct CardSetListView: View {
     @StateObject private var viewModel = CardSetListViewModel()
     @EnvironmentObject var appDataManager: AppDataManager
     @State private var selectedSet: LorcanaSet?
+
     
     var body: some View {
         NavigationView {
             ZStack {
-                Color(UIColor.systemGroupedBackground)
-                    .ignoresSafeArea()
+                
+                Image("dlbg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .edgesIgnoringSafeArea(.all)
+                    .blur(radius: (!viewModel.isLoading && !appDataManager.isLoadingCards && !viewModel.lorcanaSets.isEmpty) ? 10 : 0)
+                
+                // Surface color scrim overlay when content is loaded
+                if !viewModel.isLoading && !appDataManager.isLoadingCards && !viewModel.lorcanaSets.isEmpty {
+                    Color(UIColor.systemBackground)
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+                }
                 
                 if viewModel.isLoading || appDataManager.isLoadingCards {
                     VStack(spacing: 16) {
@@ -19,38 +32,39 @@ struct CardSetListView: View {
                         if appDataManager.isLoadingCards {
                             Text("Downloading latest cards...")
                                 .font(.headline)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                         } else {
                             Text("Loading Lorcana Cards...")
                                 .font(.headline)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                         }
                         
                         if appDataManager.cardCount > 0 {
                             Text("Current: \(appDataManager.cardCount) cards")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.white)
                         }
                         
                         if let lastSync = appDataManager.lastSyncDate {
                             Text("Last updated: \(lastSync.formatted(.dateTime.hour().minute()))")
                                 .font(.caption2)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.white)
                         }
                     }
                 } else if viewModel.lorcanaSets.isEmpty {
                     VStack(spacing: 16) {
                         Image(systemName: "rectangle.stack")
                             .font(.system(size: 48))
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.white)
                         
                         Text("No Lorcana Sets")
                             .font(.title2)
                             .fontWeight(.semibold)
+                            .foregroundColor(.white)
                         
                         Text("Pull to refresh to load card data")
                             .font(.body)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                     }
                     .padding()
