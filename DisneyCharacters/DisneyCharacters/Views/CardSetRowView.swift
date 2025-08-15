@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieRowView: View {
+struct CardSetRowView: View {
     let lorcanaSet: LorcanaSet
     
     var body: some View {
@@ -34,7 +34,7 @@ struct MovieRowView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(lorcanaSet.cards, id: \.uniqueID) { card in
-                        CharacterCardView(card: card)
+                        LorcanaCardView(card: card)
                             .onTapGesture {
                                 print("Tapped on \(card.name) from \(lorcanaSet.setName)")
                             }

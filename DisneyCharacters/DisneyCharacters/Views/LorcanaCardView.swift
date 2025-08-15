@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CharacterCardView: View {
+struct LorcanaCardView: View {
     let card: LorcanaCard
     
     var body: some View {

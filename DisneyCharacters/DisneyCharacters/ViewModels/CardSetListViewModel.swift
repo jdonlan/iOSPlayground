@@ -3,7 +3,7 @@ import SwiftUI
 import Combine
 
 @MainActor
-class CharacterListViewModel: ObservableObject {
+class CardSetListViewModel: ObservableObject {
     @Published var lorcanaSets: [LorcanaSet] = []
     @Published var isLoading = false
     

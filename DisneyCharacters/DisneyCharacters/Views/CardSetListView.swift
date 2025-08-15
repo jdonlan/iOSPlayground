@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct CharacterListView: View {
-    @StateObject private var viewModel = CharacterListViewModel()
+struct CardSetListView: View {
+    @StateObject private var viewModel = CardSetListViewModel()
     @EnvironmentObject var appDataManager: AppDataManager
     
     var body: some View {
@@ -57,7 +57,7 @@ struct CharacterListView: View {
                     ScrollView {
                         LazyVStack(spacing: 24) {
                             ForEach(viewModel.lorcanaSets) { lorcanaSet in
-                                MovieRowView(lorcanaSet: lorcanaSet)
+                                CardSetRowView(lorcanaSet: lorcanaSet)
                             }
                         }
                         .padding(.top)
@@ -74,5 +74,5 @@ struct CharacterListView: View {
 }
 
 #Preview {
-    CharacterListView()
+    CardSetListView()
 }
