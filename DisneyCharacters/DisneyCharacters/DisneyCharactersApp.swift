@@ -1,0 +1,23 @@
+//
+//  DisneyCharactersApp.swift
+//  DisneyCharacters
+//
+//  Created by Joshua Donlan on 8/14/25.
+//
+
+import SwiftUI
+
+@main
+struct DisneyCharactersApp: App {
+    @StateObject private var appDataManager = AppDataManager.shared
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environmentObject(appDataManager)
+                .task {
+                    await appDataManager.initializeAppData()
+                }
+        }
+    }
+}

@@ -1,0 +1,53 @@
+import Foundation
+import RealmSwift
+
+// Simple service to test Realm integration
+class RealmTestService {
+    static func testRealmSetup() -> Bool {
+        do {
+            let realm = try Realm()
+            print("✅ Realm setup successful at: \(realm.configuration.fileURL?.absoluteString ?? "unknown")")
+            return true
+        } catch {
+            print("❌ Realm setup failed: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    static func testLorcanaCardModel() -> Bool {
+        do {
+            let realm = try Realm()
+            
+            // Test creating and saving a sample card
+            let testCard = LorcanaCardRealm()
+            testCard.uniqueID = "test-123"
+            testCard.name = "Test Character"
+            testCard.type = "Character"
+            testCard.cost = 3
+            
+            try realm.write {
+                realm.add(testCard, update: .modified)
+            }
+            
+            // Test retrieving the card
+            let retrievedCard = realm.object(ofType: LorcanaCardRealm.self, forPrimaryKey: "test-123")
+            
+            if let card = retrievedCard {
+                print("✅ LorcanaCardRealm model test successful: \(card.name)")
+                
+                // Clean up test data
+                try realm.write {
+                    realm.delete(card)
+                }
+                return true
+            } else {
+                print("❌ Failed to retrieve test card")
+                return false
+            }
+            
+        } catch {
+            print("❌ LorcanaCardRealm model test failed: \(error.localizedDescription)")
+            return false
+        }
+    }
+}
