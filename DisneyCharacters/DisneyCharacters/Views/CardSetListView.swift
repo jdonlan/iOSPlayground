@@ -58,9 +58,9 @@ struct CardSetListView: View {
                     ScrollView {
                         LazyVStack(spacing: 24) {
                             ForEach(viewModel.lorcanaSets) { lorcanaSet in
-                                CardSetRowView(lorcanaSet: lorcanaSet) {
+                                CardSetRowView(lorcanaSet: lorcanaSet, openCardSetDetailView: {
                                     selectedSet = lorcanaSet
-                                }
+                                })
                             }
                         }
                         .padding(.top)
