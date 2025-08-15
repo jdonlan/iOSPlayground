@@ -3,6 +3,7 @@ import SwiftUI
 struct CardSetRowView: View {
     let lorcanaSet: LorcanaSet
     let openCardSetDetailView: () -> Void
+    let onCardTapped: (LorcanaCard) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -42,7 +43,7 @@ struct CardSetRowView: View {
                     ForEach(Array(getDisplayCards().prefix(12)), id: \.uniqueID) { card in
                         LorcanaCardView(card: card)
                             .onTapGesture {
-                                print("Tapped on \(card.name) from \(lorcanaSet.setName)")
+                                onCardTapped(card)
                             }
                     }
                     

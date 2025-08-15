@@ -4,6 +4,7 @@ struct CardSetListView: View {
     @StateObject private var viewModel = CardSetListViewModel()
     @EnvironmentObject var appDataManager: AppDataManager
     @State private var selectedSet: LorcanaSet?
+    @State private var selectedCard: LorcanaCard?
 
     
     var body: some View {
@@ -72,9 +73,15 @@ struct CardSetListView: View {
                     ScrollView {
                         LazyVStack(spacing: 24) {
                             ForEach(viewModel.lorcanaSets) { lorcanaSet in
-                                CardSetRowView(lorcanaSet: lorcanaSet, openCardSetDetailView: {
-                                    selectedSet = lorcanaSet
-                                })
+                                CardSetRowView(
+                                    lorcanaSet: lorcanaSet,
+                                    openCardSetDetailView: {
+                                        selectedSet = lorcanaSet
+                                    },
+                                    onCardTapped: { card in
+                                        selectedCard = card
+                                    }
+                                )
                             }
                         }
                         .padding(.top)
@@ -93,6 +100,11 @@ struct CardSetListView: View {
                     cards: lorcanaSet.cards
                 ) {
                     selectedSet = nil
+                }
+            }
+            .fullScreenCover(item: $selectedCard) { lorcanaCard in
+                FullScreenCardView(card: lorcanaCard) {
+                    selectedCard = nil
                 }
             }
         }

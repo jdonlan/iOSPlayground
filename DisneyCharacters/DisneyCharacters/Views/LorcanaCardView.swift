@@ -9,7 +9,7 @@ struct LorcanaCardView: View {
             // Card image
             KFImage(URL(string: card.image ?? ""))
                 .resizable()
-                .roundCorner(radius: .point(12))
+                .roundCorner(radius: .widthFraction(0.03))
                 .serialize(as: .PNG)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 100, height: 140)
