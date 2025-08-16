@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUICore
 
 struct LorcanaCard: Codable, Identifiable {
     let artist: String?
@@ -83,6 +84,18 @@ extension LorcanaCard {
         case "legendary": return "⬟"
         case "enchanted": return "⬡"
         default: return "❓"
+        }
+    }
+    
+    var viewColor: Color {
+        switch (inkColors.first?.lowercased()) {
+        case "amber": return Color(hex: "#F5B202")
+        case "steel": return Color(hex: "#9FA8B4")
+        case "amethyst": return Color(hex: "#81377B")
+        case "ruby": return Color(hex: "#D3082F")
+        case "sapphire": return Color(hex: "#0189C4")
+        case "emerald": return Color(hex: "#2A8934")
+        default: return .black
         }
     }
 }

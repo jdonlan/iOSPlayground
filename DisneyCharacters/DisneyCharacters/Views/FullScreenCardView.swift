@@ -7,7 +7,7 @@ struct FullScreenCardView: View {
     var body: some View {
         ZStack {
             // Black background
-            Color.black
+            card.viewColor
                 .ignoresSafeArea(.all)
                 .onTapGesture {
                     onDismiss()
