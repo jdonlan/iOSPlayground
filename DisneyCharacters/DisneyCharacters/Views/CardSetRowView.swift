@@ -42,6 +42,7 @@ struct CardSetRowView: View {
                 HStack(spacing: 12) {
                     ForEach(Array(getDisplayCards().prefix(12)), id: \.uniqueID) { card in
                         LorcanaCardView(card: card)
+                            .frame(width: 100, height: 140)
                             .onTapGesture {
                                 onCardTapped(card)
                             }

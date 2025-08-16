@@ -21,7 +21,6 @@ struct LorcanaCardView: View {
                 .placeholder {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.gray.opacity(0.3))
-                        .frame(width: 100, height: 140)
                         .overlay(
                             ProgressView()
                                 .scaleEffect(0.8)
@@ -31,7 +30,6 @@ struct LorcanaCardView: View {
                 .roundCorner(radius: .widthFraction(0.03))
                 .serialize(as: .PNG)
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 100, height: 140)
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
             
             // Card name
@@ -41,7 +39,6 @@ struct LorcanaCardView: View {
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
-                .frame(width: 100)
                 .padding(.horizontal, 2)
         }
         .padding(.horizontal, 4)
