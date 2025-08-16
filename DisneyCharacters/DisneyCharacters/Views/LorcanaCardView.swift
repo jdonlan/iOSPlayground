@@ -2,12 +2,31 @@ import SwiftUI
 import Kingfisher
 
 struct LorcanaCardView: View {
-    let card: LorcanaCard
+    @StateObject private var viewModel: LorcanaCardViewModel
+    
+    init(card: LorcanaCard) {
+        self._viewModel = StateObject(wrappedValue: LorcanaCardViewModel(card: card))
+    }
     
     var body: some View {
         VStack(spacing: 8) {
             // Card image
-            KFImage(URL(string: card.image ?? ""))
+            KFImage(viewModel.cardImageURL)
+                .onSuccess { _ in
+                    viewModel.onImageLoadSuccess()
+                }
+                .onFailure { error in
+                    viewModel.onImageLoadFailure(error)
+                }
+                .placeholder {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 100, height: 140)
+                        .overlay(
+                            ProgressView()
+                                .scaleEffect(0.8)
+                        )
+                }
                 .resizable()
                 .roundCorner(radius: .widthFraction(0.03))
                 .serialize(as: .PNG)
@@ -16,7 +35,7 @@ struct LorcanaCardView: View {
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
             
             // Card name
-            Text(card.name)
+            Text(viewModel.cardName)
                 .font(.caption)
                 .fontWeight(.medium)
                 .foregroundColor(.primary)
