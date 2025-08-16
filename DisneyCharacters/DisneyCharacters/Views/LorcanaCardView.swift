@@ -27,7 +27,7 @@ struct LorcanaCardView: View {
                         )
                 }
                 .resizable()
-                .roundCorner(radius: .widthFraction(0.03))
+                .roundCorner(radius: .widthFraction(0.05))
                 .serialize(as: .PNG)
                 .aspectRatio(contentMode: .fill)
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)

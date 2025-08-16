@@ -1,5 +1,4 @@
 import SwiftUI
-import Kingfisher
 
 struct FullScreenCardView: View {
     let card: LorcanaCard
@@ -14,11 +13,10 @@ struct FullScreenCardView: View {
                     onDismiss()
                 }
             
-            // Card image with 5% padding
-            KFImage(URL(string: card.image ?? ""))
-                .resizable()
+            // Card with 5% padding from screen edges
+            LorcanaCardView(card: card)
                 .aspectRatio(contentMode: .fit)
-                .padding(.all, 20) // 5% padding approximation
+                .padding(.all, 20)
             
             // Close button
             VStack {
