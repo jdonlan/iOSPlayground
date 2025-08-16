@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CardSetRowView: View {
+    @Environment(\.appTheme) var theme
     let lorcanaSet: LorcanaSet
     let openCardSetDetailView: () -> Void
     let onCardTapped: (LorcanaCard) -> Void
@@ -16,18 +17,18 @@ struct CardSetRowView: View {
                         Text(lorcanaSet.setName)
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(.primary)
+                            .foregroundColor(theme.primaryColor)
                         
                         Text("Set \(lorcanaSet.setNum)")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.secondaryColor)
                     }
                     
                     Spacer()
                     
                     Text("\(lorcanaSet.cards.count) cards")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.secondaryColor)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(Color.secondary.opacity(0.1))

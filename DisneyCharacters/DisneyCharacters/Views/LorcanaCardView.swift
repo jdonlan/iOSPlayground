@@ -2,6 +2,7 @@ import SwiftUI
 import Kingfisher
 
 struct LorcanaCardView: View {
+    @Environment(\.appTheme) var theme
     @StateObject private var viewModel: LorcanaCardViewModel
     
     init(card: LorcanaCard) {
@@ -36,7 +37,7 @@ struct LorcanaCardView: View {
             Text(viewModel.cardName)
                 .font(.caption)
                 .fontWeight(.medium)
-                .foregroundColor(.primary)
+                .foregroundColor(theme.primaryColor)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .padding(.horizontal, 2)
