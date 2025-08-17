@@ -22,8 +22,9 @@ struct CardSetListView: View {
                 
                 // Surface color scrim overlay when content is loaded
                 if !viewModel.isLoading && !appDataManager.isLoadingCards && !viewModel.lorcanaSets.isEmpty {
-                    Color(theme.surfaceColor)
-                        .opacity(0.5)
+                    Rectangle()
+                        .fill(theme.surfaceColor.opacity(0.1))
+                        .background(.ultraThinMaterial)
                         .ignoresSafeArea()
                 }
                 
