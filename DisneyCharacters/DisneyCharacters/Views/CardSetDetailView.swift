@@ -4,7 +4,7 @@ struct CardSetDetailView: View {
     @StateObject private var viewModel: CardSetDetailViewModel
     let onDismiss: () -> Void
     
-    let columns = Array(repeating: GridItem(.flexible(), spacing: 16), count: 2)
+    private let minimumCardWidth: CGFloat = 180
     
     init(setName: String, setNumber: Int, cards: [LorcanaCard], onDismiss: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: CardSetDetailViewModel(setName: setName, setNumber: setNumber, cards: cards))
@@ -46,16 +46,24 @@ struct CardSetDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.filteredAndSortedCards, id: \.id) { card in
-                            LorcanaCardView(card: card)
-                                .onTapGesture {
-                                    viewModel.selectCard(card)
-                                }
+                GeometryReader { geometry in
+                    let columns = Array(
+                        repeating: GridItem(.flexible(minimum: minimumCardWidth), spacing: 16),
+                        count: max(1, Int(geometry.size.width / minimumCardWidth))
+                    )
+                    
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            ForEach(viewModel.filteredAndSortedCards, id: \.id) { card in
+                                LorcanaCardView(card: card)
+                                    .aspectRatio(5/7, contentMode: .fit)
+                                    .onTapGesture {
+                                        viewModel.selectCard(card)
+                                    }
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
             }
             .navigationTitle(viewModel.displayTitle)
