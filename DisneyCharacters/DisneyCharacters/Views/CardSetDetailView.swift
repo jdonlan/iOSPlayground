@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CardSetDetailView: View {
     @StateObject private var viewModel: CardSetDetailViewModel
+    @Environment(\.dismiss) private var dismiss
     let onDismiss: () -> Void
     
     private let minimumCardWidth: CGFloat = 180
@@ -12,8 +13,7 @@ struct CardSetDetailView: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack {
                 // Search and filter bar
                 HStack {
                     TextField("Search cards...", text: $viewModel.searchText)
@@ -66,16 +66,8 @@ struct CardSetDetailView: View {
                     }
                 }
             }
-            .navigationTitle(viewModel.displayTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("✕") {
-                        onDismiss()
-                    }
-                }
-            }
-        }
+        .navigationTitle(viewModel.displayTitle)
+        .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(isPresented: $viewModel.showingFullScreenCard) {
             if let selectedCard = viewModel.selectedCard {
                 FullScreenCardView(card: selectedCard) {

@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUICore
 
-struct LorcanaCard: Codable, Identifiable {
+struct LorcanaCard: Codable, Identifiable, Hashable {
     let artist: String?
     let setName: String?
     let classifications: String?
@@ -58,6 +58,14 @@ struct LorcanaCard: Codable, Identifiable {
 }
 
 extension LorcanaCard {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uniqueID)
+    }
+    
+    static func == (lhs: LorcanaCard, rhs: LorcanaCard) -> Bool {
+        lhs.uniqueID == rhs.uniqueID
+    }
+    
     var inkColors: [String] {
         color?.components(separatedBy: " - ") ?? []
     }

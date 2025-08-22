@@ -1,6 +1,6 @@
 import Foundation
 
-struct LorcanaSet: Identifiable {
+struct LorcanaSet: Identifiable, Hashable {
     let id = UUID()
     let setNum: Int
     let setName: String
@@ -8,6 +8,15 @@ struct LorcanaSet: Identifiable {
 }
 
 extension LorcanaSet {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(setNum)
+        hasher.combine(setName)
+    }
+    
+    static func == (lhs: LorcanaSet, rhs: LorcanaSet) -> Bool {
+        lhs.setNum == rhs.setNum && lhs.setName == rhs.setName
+    }
+    
     private struct SetKey: Hashable {
         let setNum: Int
         let setName: String

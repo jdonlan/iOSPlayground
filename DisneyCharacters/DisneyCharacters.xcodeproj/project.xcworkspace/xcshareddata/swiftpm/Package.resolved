@@ -1,0 +1,33 @@
+{
+  "originHash" : "a0e41175342964db7c74c4a13ebe3d9eded7edc1fba983447069124ccf9e4fbf",
+  "pins" : [
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "2015fda791daa72c8058619545a593bf8c1dd59f",
+        "version" : "8.5.0"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core.git",
+      "state" : {
+        "revision" : "cccb3ca9e26ec452a29f2f0d4050d1e38b8a3d43",
+        "version" : "14.14.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "5fcba6408c99eb3596bf5ae148bfc1a33b5adebd"
+      }
+    }
+  ],
+  "version" : 3
+}

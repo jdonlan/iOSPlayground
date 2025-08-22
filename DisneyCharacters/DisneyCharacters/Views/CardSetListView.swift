@@ -10,7 +10,7 @@ struct CardSetListView: View {
 
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 
                 Image("cabg")
@@ -100,7 +100,7 @@ struct CardSetListView: View {
                 LorcanaToolbar()
             }
             .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
-            .sheet(item: $selectedSet) { lorcanaSet in
+            .navigationDestination(item: $selectedSet) { lorcanaSet in
                 CardSetDetailView(
                     setName: lorcanaSet.setName,
                     setNumber: lorcanaSet.setNum,
