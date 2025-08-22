@@ -7,7 +7,6 @@ struct CardSetListView: View {
     @EnvironmentObject var appDataManager: AppDataManager
     @State private var selectedSet: LorcanaSet?
     @State private var selectedCard: LorcanaCard?
-
     
     var body: some View {
         NavigationStack {
@@ -20,12 +19,12 @@ struct CardSetListView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 // Surface color scrim overlay when content is loaded
-                if !viewModel.isLoading && !appDataManager.isLoadingCards && !viewModel.lorcanaSets.isEmpty {
-                    Rectangle()
-                        .fill(theme.surfaceColor.opacity(0.1))
-                        .background(.ultraThinMaterial)
-                        .ignoresSafeArea()
-                }
+                Rectangle()
+                    .fill(theme.surfaceColor)
+                    .opacity(0.25)
+                    .background(.ultraThinMaterial)
+                    .ignoresSafeArea()
+                    
                 
                 if viewModel.isLoading || appDataManager.isLoadingCards {
                     VStack(spacing: 16) {
@@ -87,7 +86,6 @@ struct CardSetListView: View {
                             }
                         }
                         .padding(.top)
-//                        .padding(.horizontal)
                     }
                     .refreshable {
                         viewModel.refreshSets()

@@ -4,9 +4,11 @@ import Kingfisher
 struct LorcanaCardView: View {
     @Environment(\.appTheme) var theme
     @StateObject private var viewModel: LorcanaCardViewModel
+    private var showLabel: Bool = true
     
-    init(card: LorcanaCard) {
+    init(card: LorcanaCard, showLabel: Bool = true) {
         self._viewModel = StateObject(wrappedValue: LorcanaCardViewModel(card: card))
+        self.showLabel = showLabel
     }
     
     var body: some View {
@@ -33,14 +35,16 @@ struct LorcanaCardView: View {
                 .aspectRatio(contentMode: .fill)
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
             
-            // Card name
-            Text(viewModel.cardName)
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundColor(theme.primaryColor)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .padding(.horizontal, 2)
+            if(showLabel) {
+                // Card name
+                Text(viewModel.cardName)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(theme.primaryColor)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.horizontal, 2)
+            }
         }
         .padding(.horizontal, 4)
     }

@@ -2,12 +2,15 @@ import SwiftUI
 
 struct CardSetRowView: View {
     @Environment(\.appTheme) var theme
+    @State private var containerLeft: CGFloat = 0
+    @State private var containerWidth: CGFloat = 0
+    @State private var itemWidth: CGFloat = 0
     let lorcanaSet: LorcanaSet
     let openCardSetDetailView: () -> Void
     let onCardTapped: (LorcanaCard) -> Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             // Set title
             Button(action: {
                 openCardSetDetailView()
@@ -29,7 +32,7 @@ struct CardSetRowView: View {
                     Text("\(lorcanaSet.cards.count) cards")
                         .font(.caption)
                         .foregroundColor(theme.secondaryColor)
-                        .padding(.horizontal, 8)
+                        .padding(.horizontal, theme.padding)
                         .padding(.vertical, 4)
                         .background(Color.secondary.opacity(0.1))
                         .cornerRadius(8)
@@ -39,26 +42,43 @@ struct CardSetRowView: View {
             .padding(.horizontal)
             
             // Horizontally scrollable card items
-            ScrollView(.horizontal, showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false)  {
                 HStack(spacing: 12) {
                     ForEach(Array(getDisplayCards().prefix(12)), id: \.uniqueID) { card in
-                        LorcanaCardView(card: card)
-                            .frame(width: 100, height: 140)
-                            .onTapGesture {
-                                onCardTapped(card)
-                            }
+                        GeometryReader { itemGeometry in
+                            LorcanaCardView(card: card, showLabel: false)
+                                .frame(width: 100, height: 140)
+                                .scaleEffect(scaleFactor(containerLeft: containerLeft, itemGeometry: itemGeometry))
+                                .onTapGesture {
+                                    onCardTapped(card)
+                                }
+                        }
+                        .frame(minWidth: 100, maxWidth: .infinity, minHeight: 175, maxHeight: .infinity)
                     }
                     
-                    if lorcanaSet.cards.count > 12 {
-                        ViewAllTile {
-                            openCardSetDetailView()
-                        }
+                    ViewAllTile {
+                        openCardSetDetailView()
                     }
+                    
                 }
-                .padding(.horizontal)
+                .padding(theme.padding)
+            }
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.frame(in: .global).minX
+            } action: { left in
+                let calculatedLeft = left + theme.padding
+                if(!calculatedLeft.isEqual(to: containerLeft)) {
+                    containerLeft = calculatedLeft
+
+                }
+            }
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.frame(in: .global).width
+            } action: { width in
+                containerWidth = (width - itemWidth)
+                print("width: \(width), itemWidth: \(itemWidth)")
             }
         }
-        .padding(.vertical, 8)
     }
     
     private func getDisplayCards() -> [LorcanaCard] {
@@ -86,5 +106,21 @@ struct CardSetRowView: View {
         }
         
         return displayCards
+    }
+    
+    private func scaleFactor(containerLeft: CGFloat, itemGeometry: GeometryProxy) -> CGFloat {
+        let itemCenter = (itemGeometry.size.width) / 2 + itemGeometry.frame(in: .global).minX
+        let itemWidth = itemGeometry.size.width
+        let scaleDistance = itemWidth / 2
+        let scalePoint = containerLeft + scaleDistance
+        let distance = abs(scalePoint - itemCenter)
+        
+        // kick back 1 if card is not in center range
+        if distance > scaleDistance {
+            return 1
+        }
+        
+        let scaleFactor = (scaleDistance - (scaleDistance - distance)) / scaleDistance
+        return ((1-scaleFactor) * 0.2) + 1
     }
 }
