@@ -16,9 +16,8 @@ struct CardSetListView: View {
                 Image("cabg")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                     .edgesIgnoringSafeArea(.all)
-                    .blur(radius: (!viewModel.isLoading && !appDataManager.isLoadingCards && !viewModel.lorcanaSets.isEmpty) ? 10 : 0)
                 
                 // Surface color scrim overlay when content is loaded
                 if !viewModel.isLoading && !appDataManager.isLoadingCards && !viewModel.lorcanaSets.isEmpty {
@@ -88,6 +87,7 @@ struct CardSetListView: View {
                             }
                         }
                         .padding(.top)
+//                        .padding(.horizontal)
                     }
                     .refreshable {
                         viewModel.refreshSets()
